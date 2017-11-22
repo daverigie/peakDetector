@@ -1,7 +1,7 @@
 //#include <matrix.h>
 #include "array2d.hpp"
 #include <complex>
-#include "main.hpp"
+#include "fitpeak.hpp"
 #include "mexutils.hpp"
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])

@@ -20,7 +20,7 @@ function fout = testmex_wrapper(kdata, fmin, fmax)
     
     %%%%%%% CALL MEX FUNCTION
        
-    fout = testmex(kdata, fmin, fmax);
+    fout = peakDetector_mex(kdata, fmin, fmax);
 
 
 end
