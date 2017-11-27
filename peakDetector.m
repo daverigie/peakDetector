@@ -1,4 +1,4 @@
-function fout = testmex_wrapper(kdata, fmin, fmax)
+function fout = testmex_wrapper(kdata, fmin, fmax, ftol)
 
     %%%%%% CHECK INPUTS
     fmin = double(fmin(:));
@@ -18,9 +18,15 @@ function fout = testmex_wrapper(kdata, fmin, fmax)
         error('Problem with input data. Is it oriented wrong?');
     end
     
+    if nargin < 4
+        ftol = 1.0e-6;
+    end
+    
+    ftol = double(ftol);
+    
     %%%%%%% CALL MEX FUNCTION
        
-    fout = peakDetector_mex(kdata, fmin, fmax);
+    fout = peakDetector_mex(kdata, fmin, fmax, ftol);
 
 
 end
