@@ -1,6 +1,11 @@
-function fout = testmex_wrapper(kdata, fmin, fmax, ftol)
+function fout = testmex_wrapper(kdata, varargin)
 
-    %%%%%% CHECK INPUTS
+    %%%%%%%%%%%%%%%%%%%%%%%%%% CHECK INPUTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    argchecker = getArgChecker(varargin); % Set Default Arguments
+    fmin       = argchecker('fmin', 0.0);
+    fmax       = argchecker('fmax', 1.0);
+    ftol       = argchecker('ftol', 1.0e-9);
+    
     fmin = double(fmin(:));
     fmax = double(fmax(:));
     
@@ -17,14 +22,10 @@ function fout = testmex_wrapper(kdata, fmin, fmax, ftol)
     if ~checkdims(kdata, fmin, fmax)
         error('Problem with input data. Is it oriented wrong?');
     end
-    
-    if nargin < 4
-        ftol = 1.0e-6;
-    end
-    
+        
     ftol = double(ftol);
     
-    %%%%%%% CALL MEX FUNCTION
+    %%%%%%%%%%%%%%%%%%%%% CALL MEX FUNCTION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
        
     fout = peakDetector_mex(kdata, fmin, fmax, ftol);
 

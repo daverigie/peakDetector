@@ -18,7 +18,7 @@ fmax = ff(end);
 
 kdata  = twixobj.data(:,:,1:(38*1000));
 
-f0_vec   = testmex_wrapper(squeeze(kdata(:,1,:)), fmin, fmax);
+f0_vec   = peakDetector(squeeze(kdata(:,1,:)), fmin, fmax, 1.0e-6);
 f0_vec = reshape(f0_vec, 1, 1, []);
 
 

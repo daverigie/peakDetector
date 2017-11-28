@@ -16,5 +16,5 @@ fmax  = repmat(fmax, [N,1]);
 fprintf('\n\nRunning mex program ... \n\n\n');
 
 tic;
-fout = peakDetector(x, fmin, fmax);
+fout = peakDetector(x, 'fmin', fmin, 'fmax', fmax);
 toc;

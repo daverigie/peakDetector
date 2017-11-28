@@ -1,3 +1,5 @@
+clear mex;
+
 if ispc
     compile_windows;
 else

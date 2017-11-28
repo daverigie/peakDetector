@@ -7,6 +7,7 @@
 #include "array2d.hpp"
 #include "util.hpp"
 #include <omp.h>
+#include "brent.hpp"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ const double PI = 3.141592653589793238462643383279502884197169399375105820974944
 const double GOLDEN_RATIO = (sqrt(5.0) + 1.0)/2.0;
 
 template <class T>
-struct costfun
+struct costfun 
 {
 	const complex<T> *  yy;
     size_t N;
@@ -31,6 +32,26 @@ struct costfun
 
 		return -abs(val);
 	}
+};
+
+class costfun_brent : public brent::func_base
+{
+	public: 
+		const complex<double> *  yy;
+		size_t N;
+		double operator()(double f0){
+				
+			complex<double> val = (0.0, 0.0);
+			complex<double> _i_(0,1);
+			double dt = 0.5;
+
+			for (int i=0; i<N; i++){
+				double t = dt*((double)i);
+				val += conj(yy[i])*exp(_i_*2.0*PI*f0*t);
+			}
+
+			return -abs(val);
+		}
 };
 
 template <class T>
@@ -116,14 +137,14 @@ double gs_search(T& f, double a, double b, double tol){
 	}
 
 	return xopt;
-
 }
 
 template <class T>
 T fit_sinusoid(const complex<T> * yy, complex<T> * yyft, FFT<T> & fft, T fmin, T fmax, T ftol, size_t N){
 
 	T fopt = fmin;
-	struct costfun<T> fun;
+	//struct costfun<T> fun;
+	costfun_brent fun;
 	fun.yy = yy;
     
 	fun.N  = N;
@@ -149,7 +170,8 @@ T fit_sinusoid(const complex<T> * yy, complex<T> * yyft, FFT<T> & fft, T fmin, T
 	fmin = fopt - df;
 	fmax = fopt + df;
 
-	fopt = gs_search<struct costfun<T>>(fun, fmin ,fmax, ftol);
+	//fopt = gs_search<struct costfun<T>>(fun, fmin ,fmax, ftol);
+	fval = brent::local_min(fmin, fmax, ftol, fun, fopt);
 
     return fopt;
 }

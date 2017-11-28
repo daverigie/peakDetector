@@ -4,7 +4,7 @@ function [] = compile_windows()
    MEX_DIR        = '../mex/';
    COMPILER_FLAGS = 'COMPFLAGS="/openmp /O2 $COMPFLAGS$"';
     
-   src_files = fullfile(SRC_DIR, {'peakDetector_mex.cpp', 'mexutils.cpp'});   
+   src_files = fullfile(SRC_DIR, {'peakDetector_mex.cpp', 'mexutils.cpp', 'brent.cpp'});   
                            
    mex_args = {'-v', '-I"..\include"', src_files{:}, COMPILER_FLAGS, '-outdir', MEX_DIR};
       
